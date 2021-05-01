@@ -165,7 +165,6 @@ class Input extends Component {
                     <Typography align="left">Coordinates should be greater than equal to 0 and less than 1000.</Typography>
                     <Typography align="left">Start and end spaces within each line will be trimed automatically.</Typography>
                     <Typography align="left">An empty line command will cause an error.</Typography>
-                    <Typography align="left">A warning will be displayed if the shape is drawn outside the box.</Typography>
                 </Box>
 
                 {this.state.error ?
