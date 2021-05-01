@@ -1,27 +1,54 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Input extends Component {
+const Input = ({ shapes }) => {
+    return (
+        <React.Fragment>
+            <svg width={250} height={250} style={{ border: '1px solid #ccc' }}>
+                {(shapes && shapes.length) ?
+                    shapes.map(shape => {
+                        if (shape.type === "c")
+                            return <circle
+                                key={shape.type}
+                                cx={shape.dimensions[0]}
+                                cy={shape.dimensions[1]}
+                                r={shape.dimensions[2]}
+                                fill="red" />
 
-    state = {
-        dimensions: ''
-    };
+                        else if (shape.type === "e")
+                            return <ellipse
+                                key={shape.type}
+                                cx={shape.dimensions[0]}
+                                cy={shape.dimensions[1]}
+                                rx={shape.dimensions[2]}
+                                ry={shape.dimensions[3]}
+                                fill="pink" />
 
-    render() {
-        let { dimensions } = this.state;
+                        else if (shape.type === "p") {
+                            var dim = '';
+                            shape.dimensions.forEach(dimension => {
+                                dim += [...dimension].join(',') + " ";
+                            });
+                            console.log(dim)
+                            return <polygon
+                                key={shape.type}
+                                points={dim}
+                                fill="blue" />
+                        }
 
-        return (
-            <React.Fragment>
-                <svg width={250} height={250} style={{ border: '1px solid #ccc' }}>
-                    <polygon points="200,10 150,190 60,10" fill="blue" />
-                    <ellipse cx={125} cy={125} rx={100} ry={50} fill="pink" />
-                    <rect x={75} y={75} width={100} height={100} fill="green" />
-                    <circle cx={125} cy={125} r={20} fill="red" />
-                </svg>
-            </React.Fragment>
-        )
-
-    }
-
+                        else if (shape.type === "r")
+                            return <rect
+                                key={shape.type}
+                                x={shape.dimensions[0]}
+                                y={shape.dimensions[1]}
+                                width={shape.dimensions[2]}
+                                height={shape.dimensions[3]}
+                                fill="green" />
+                    }
+                    ) : ''
+                }
+            </svg>
+        </React.Fragment>
+    )
 }
 
 export default Input;

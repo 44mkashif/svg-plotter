@@ -6,8 +6,25 @@ import Grid from '@material-ui/core/Grid';
 import { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 class Plotter extends Component {
+
+    state = {
+        shapes: []
+    }
+
+    setShapes = (shapes) => {
+        this.setState({
+            shapes: shapes
+        })
+    }
+
+    clearShapes = () => {
+        this.setState({
+            shapes: []
+        })
+    }
 
     render() {
         return (
@@ -47,7 +64,7 @@ class Plotter extends Component {
                     <Divider />
 
                     <Box mt={2}>
-                        <Input />
+                        <Input setShapes={this.setShapes} />
                     </Box>
 
                 </Grid>
@@ -59,8 +76,19 @@ class Plotter extends Component {
 
                     <Typography align="left">SVG Container Size: 250px x 250px</Typography>
 
+
                     <Box mt={3} display="flex">
-                        <Svg />
+                        <Svg shapes={this.state.shapes} />
+                    </Box>
+
+                    <Box mt={3} width="250px" display="flex">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={this.clearShapes}>
+                            Clear
+                        </Button>
                     </Box>
                 </Grid>
             </Grid>

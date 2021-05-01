@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 
 class Input extends Component {
@@ -30,7 +29,6 @@ class Input extends Component {
         lines.forEach(line => {
             var shape = line.split(" ");
             shape = shape.filter((str) => /\S/.test(str));
-            console.log("Shape: ", shape);
 
             var dimensions = shape.slice(1);
 
@@ -57,6 +55,10 @@ class Input extends Component {
 
         this.checkErrors(shapes);
 
+        if (!this.state.error) {
+            this.props.setShapes(shapes);
+        }
+
     }
 
     checkErrors = (shapes) => {
@@ -74,7 +76,7 @@ class Input extends Component {
                     lines.add(index + 1);
                 } else {
                     shape.dimensions.forEach(dimension => {
-                        if (Number.isNaN(dimension)) {
+                        if (Number.isNaN(dimension) || dimension < 0 || dimension >= 1000) {
                             flag = true;
                             lines.add(index + 1);
                         }
@@ -87,7 +89,7 @@ class Input extends Component {
                     lines.add(index + 1);
                 } else {
                     shape.dimensions.forEach(dimension => {
-                        if (Number.isNaN(dimension)) {
+                        if (Number.isNaN(dimension) || dimension < 0 || dimension >= 1000) {
                             flag = true;
                             lines.add(index + 1);
                         }
@@ -100,7 +102,7 @@ class Input extends Component {
                     lines.add(index + 1);
                 } else {
                     shape.dimensions.forEach(dimension => {
-                        if (Number.isNaN(dimension)) {
+                        if (Number.isNaN(dimension) || dimension < 0 || dimension >= 1000) {
                             flag = true;
                             lines.add(index + 1);
                         }
@@ -116,7 +118,7 @@ class Input extends Component {
                         lines.add(index + 1);
                     } else {
                         dimension.forEach(point => {
-                            if (Number.isNaN(point)) {
+                            if (Number.isNaN(point) || point < 0 || point >= 1000) {
                                 flag = true;
                                 lines.add(index + 1);
                             }
