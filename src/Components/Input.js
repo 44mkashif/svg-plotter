@@ -161,8 +161,8 @@ class Input extends Component {
 
                 <Box mt={2} mb={3}>
                     <Typography align="left" variant="h5">Note:</Typography>
-                    <Typography align="left">Height, width and radius must be greater than 0 and less than 1000.</Typography>
-                    <Typography align="left">Coordinates should be greater than equal to 0 and less than 1000.</Typography>
+                    <Typography align="left">Height, width and radius must be greater than or equal to 0 and less than 1000.</Typography>
+                    <Typography align="left">Coordinates should be greater than or equal to 0 and less than 1000.</Typography>
                     <Typography align="left">Start and end spaces within each line will be trimed automatically.</Typography>
                     <Typography align="left">An empty line command will cause an error.</Typography>
                 </Box>
