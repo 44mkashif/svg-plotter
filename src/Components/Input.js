@@ -22,24 +22,38 @@ class Input extends Component {
     }
 
     processInput = () => {
-        console.log(this.state.input)
+        console.log("Input: ", this.state.input)
         const input = this.state.input.trim();
         var lines = input.split("\n");
         var shapes = [];
 
         lines.forEach(line => {
-            const shape = line.split(" ");
+            var shape = line.split(" ");
+            shape = shape.filter((str) => /\S/.test(str));
+            console.log("Shape: ", shape);
 
-            // console.log("Shape atributes: ", shape);
             var dimensions = shape.slice(1);
-            dimensions = dimensions.filter((str) => /\S/.test(str));
+
+            if (shape[0] === "p") {
+
+                const points = dimensions;
+                dimensions = []
+                points.forEach(point => {
+                    point = point.trim().split(",");
+                    point = point.filter((str) => /\S/.test(str));
+                    point = point.map(item => parseInt(item))
+                    dimensions.push(point)
+                });
+            } else {
+                dimensions = dimensions.map(item => parseInt(item));
+            }
 
             shapes.push({
                 type: shape[0],
                 dimensions: dimensions
             })
         });
-        console.log(shapes);
+        console.log("Shapes: ", shapes);
 
         this.checkErrors(shapes);
 
@@ -47,31 +61,75 @@ class Input extends Component {
 
     checkErrors = (shapes) => {
         var flag = false;
-        const lines = [];
+        const lines = new Set();
 
         shapes.forEach((shape, index) => {
             if (shape.type !== "r" && shape.type !== "c" && shape.type !== "p" && shape.type !== "e") {
                 flag = true;
-                lines.push(index + 1);
+                lines.add(index + 1);
             }
-            if (shape.type === "r" && shape.dimensions.length !== 4) {
-                flag = true;
-                lines.push(index + 1);
+            else if (shape.type === "r") {
+                if (shape.dimensions.length !== 4) {
+                    flag = true;
+                    lines.add(index + 1);
+                } else {
+                    shape.dimensions.forEach(dimension => {
+                        if (Number.isNaN(dimension)) {
+                            flag = true;
+                            lines.add(index + 1);
+                        }
+                    });
+                }
             }
-            if (shape.type === "c" && shape.dimensions.length !== 3) {
-                flag = true;
-                lines.push(index + 1);
+            else if (shape.type === "c") {
+                if (shape.dimensions.length !== 3) {
+                    flag = true;
+                    lines.add(index + 1);
+                } else {
+                    shape.dimensions.forEach(dimension => {
+                        if (Number.isNaN(dimension)) {
+                            flag = true;
+                            lines.add(index + 1);
+                        }
+                    });
+                }
             }
-            if (shape.type === "e" && shape.dimensions.length !== 4) {
-                flag = true;
-                lines.push(index + 1);
+            else if (shape.type === "e") {
+                if (shape.dimensions.length !== 4) {
+                    flag = true;
+                    lines.add(index + 1);
+                } else {
+                    shape.dimensions.forEach(dimension => {
+                        if (Number.isNaN(dimension)) {
+                            flag = true;
+                            lines.add(index + 1);
+                        }
+                    });
+                }
+            }
+            else if (shape.type === "p") {
+                const dimensions = shape.dimensions;
+
+                dimensions.forEach(dimension => {
+                    if (dimension.length !== 2) {
+                        flag = true;
+                        lines.add(index + 1);
+                    } else {
+                        dimension.forEach(point => {
+                            if (Number.isNaN(point)) {
+                                flag = true;
+                                lines.add(index + 1);
+                            }
+                        });
+                    }
+                });
             }
         });
 
-        if (flag && lines.length >> 0) {
+        if (flag) {
             this.setState({
                 error: true,
-                errorMessage: `Please provide valid shape command at line number ${lines}.`
+                errorMessage: 'Please provide valid shape command at line number ' + [...lines].join(', ')
             })
         } else {
             this.setState({
