@@ -32,7 +32,7 @@ class Plotter extends Component {
                 <Grid item xs={12} sm={6}>
 
                     <Box mb={3}>
-                        <Typography align="left" variant="h3">Welcome to Plotter App</Typography>
+                        <Typography align="left" variant="h3">Welcome to SVG Plotter App</Typography>
                     </Box>
 
                     <Typography align="left">Shapes can be plotted as SVGs in 250px x 250px grid.</Typography>
