@@ -1,6 +1,16 @@
 import React from 'react';
 
 const Input = ({ shapes }) => {
+
+    var chars = '0123456789ABCDEF'.split('');
+
+    function randomColor() {
+        var color = '#';
+        for (var i = 0; i < 6; i++)
+            color += chars[Math.floor(Math.random() * 16)];
+        return color;
+    };
+
     return (
         <React.Fragment>
             <svg width={250} height={250} style={{ border: '1px solid #ccc' }}>
@@ -12,7 +22,7 @@ const Input = ({ shapes }) => {
                                 cx={shape.dimensions[0]}
                                 cy={shape.dimensions[1]}
                                 r={shape.dimensions[2]}
-                                fill="red" />
+                                fill={randomColor()} />
 
                         else if (shape.type === "e")
                             return <ellipse
@@ -21,18 +31,17 @@ const Input = ({ shapes }) => {
                                 cy={shape.dimensions[1]}
                                 rx={shape.dimensions[2]}
                                 ry={shape.dimensions[3]}
-                                fill="pink" />
+                                fill={randomColor()} />
 
                         else if (shape.type === "p") {
                             var dim = '';
                             shape.dimensions.forEach(dimension => {
                                 dim += [...dimension].join(',') + " ";
                             });
-                            console.log(dim)
                             return <polygon
                                 key={shape.type}
                                 points={dim}
-                                fill="blue" />
+                                fill={randomColor()} />
                         }
 
                         else if (shape.type === "r")
@@ -42,7 +51,7 @@ const Input = ({ shapes }) => {
                                 y={shape.dimensions[1]}
                                 width={shape.dimensions[2]}
                                 height={shape.dimensions[3]}
-                                fill="green" />
+                                fill={randomColor()} />
                     }
                     ) : ''
                 }
